@@ -1,5 +1,3 @@
-from graphics import *
-from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 import scipy.misc as scp
 import matplotlib.pyplot as plt
