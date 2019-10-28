@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import TextBox
 from PIL import Image
 
+COLOR_ARR = [1., 0.1, 0]
+
 D_WIDTH = 600
 D_HEIGHT = 600
 
@@ -31,7 +33,7 @@ fig, ax = plt.subplots()
 
 ''' Mandelbrot set with user defined exponent (default 2 for standard set)
 '''
-def mandel(x0, xn, y0, yn, exp=EXP, iters=ITERS, width=D_WIDTH, height=D_HEIGHT):
+def mandel(x0=-2, xn=1, y0=-1.5, yn=1.5, exp=EXP, iters=ITERS, width=D_WIDTH, height=D_HEIGHT):
     x = np.linspace(x0, xn, width)
     y = np.linspace(y0, yn, height)
 
@@ -49,7 +51,10 @@ def mandel(x0, xn, y0, yn, exp=EXP, iters=ITERS, width=D_WIDTH, height=D_HEIGHT)
 
 ''' Julia set for constant c and user defined exp
 '''
-def defined_julia(x0, xn, y0, yn, exp=EXP, c=C, iters=ITERS, width=D_WIDTH, height=D_HEIGHT):
+def defined_julia(x0=-1.5, xn=1.5, y0=-1.5, yn=1.5, exp=EXP, c=C, iters=ITERS, width=D_WIDTH, height=D_HEIGHT):
+    global COLOR_ARR
+    COLOR_ARR = [0, 1., 1.]
+
     x = np.linspace(x0, xn, width)
     y = np.linspace(y0, yn, height)
 
@@ -71,7 +76,7 @@ def color(iter_map, iters=ITERS, height=D_HEIGHT, width=D_WIDTH):
     #iter_map[iter_map == iters] = 0
     iter_map = iter_map / iters
 
-    colors = np.full((height, width, 3), [1., 0.1, 0])
+    colors = np.full((height, width, 3), COLOR_ARR)
     colors = (colors.T * iter_map).T
     
     iter_map = iter_map.T
@@ -253,8 +258,8 @@ def main():
     global ALG
 
     # TODO make this user defined
-    ALG = mandel
-    colors = ALG(-2, 1, -1.5, 1.5)
+    ALG = defined_julia
+    colors = ALG()
     
     # Show initial fractal
     ax.imshow(colors)
